@@ -53,3 +53,62 @@ const BookList: React.FC = () => {
 };
 
 export default BookList;
+
+// JSON RESPONSE
+// {
+//   "data": [
+//       {
+//           "id": "ec63473b-7876-4061-8da1-4656d993db6b",
+//           "title": "Rich Dad",
+//           "year": "2008",
+//           "author": {
+//               "id": "1",
+//               "name": "Robert",
+//               "socialMedia": "@robert",
+//               "updatedAt": null,
+//               "isDeleted": null
+//           },
+//           "publisher": {
+//               "id": "1",
+//               "name": "Gramedia",
+//               "address": "Jl.Batu",
+//               "updatedAt": null,
+//               "isDeleted": null
+//           },
+//           "updatedAt": "2023-09-25T15:28:17.87486",
+//           "isAvailable": true,
+//           "isDeleted": false
+//       }
+//   ],
+//   "success": true,
+//   "message": "success",
+//   "status": 200
+// }{
+//   "data": [
+//       {
+//           "id": "ec63473b-7876-4061-8da1-4656d993db6b",
+//           "title": "Rich Dad",
+//           "year": "2008",
+//           "author": {
+//               "id": "1",
+//               "name": "Robert",
+//               "socialMedia": "@robert",
+//               "updatedAt": null,
+//               "isDeleted": null
+//           },
+//           "publisher": {
+//               "id": "1",
+//               "name": "Gramedia",
+//               "address": "Jl.Batu",
+//               "updatedAt": null,
+//               "isDeleted": null
+//           },
+//           "updatedAt": "2023-09-25T15:28:17.87486",
+//           "isAvailable": true,
+//           "isDeleted": false
+//       }
+//   ],
+//   "success": true,
+//   "message": "success",
+//   "status": 200
+// }
