@@ -55,7 +55,6 @@ const Home: React.FC = () => {
 
   const handleAddBook = async () => {
     try {
-      // Send a POST request to add the book
       const bookPayload = {
         judul: bookData.title,
         tahunTerbit: bookData.yearOfPublication,
@@ -72,16 +71,10 @@ const Home: React.FC = () => {
 
       if (bookAddResponse.status === 201) {
         console.log('Book added successfully');
-
-        // Get the bookId from the response
         const bookId = bookAddResponse.data.data.id;
-
-        // Prepare form data for image upload with bookId
         const imageForm = new FormData();
         imageForm.append('file', bookData.imageFile);
-        imageForm.append('bookId', bookId); // Add bookId to form data
-
-        // Upload the image with bookId
+        imageForm.append('bookId', bookId);
         const imageUploadResponse = await axios.post('http://localhost:9090/admin/files/book', imageForm, {
           headers: {
             'Content-Type': 'multipart/form-data',
