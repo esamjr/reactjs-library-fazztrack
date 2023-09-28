@@ -1,12 +1,15 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import './index.css';
+
+import classes from './Login.module.css';
 import { Link, useNavigate } from "react-router-dom";
 
 const Login: React.FC = () => {
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
+  const [error, setError] = useState<string | null>(null);
   const navigate = useNavigate();
+
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     const user = {
@@ -18,92 +21,96 @@ const Login: React.FC = () => {
       const response = await axios.post('http://localhost:9090/users/login', JSON.stringify(user), {
         headers: {
           'Content-Type': 'application/json',
-          
         },
         
       });
 
       if (response.status === 200) {
-        // <Navigate to="/" replace={true} />
-        navigate("/register");
+        localStorage.setItem('token', response.data.data.token);
+        localStorage.setItem('email', response.data.data.email);
+        navigate("/home");
       } else {
-        alert('Invalid email or password. Please try again.');
+        setError('Email atau password tidak valid. Silahkan coba lagi.');
       }
     } catch (error) {
       console.error('Error:', error);
+      setError('Terjadi kesalahan. Silahkan coba lagi.');
     }
   };
 
   return (
-    <div className="container-fluid">
-        <div className="row">
-            <section className="left col-lg-8">
-                <div className="overlap">
-                    <p className="book-is-a-window-to d-sm-none d-lg-block">Book is a window <br />to the world</p>
+    <div className="container-fluid" style={{ paddingLeft: 0, paddingRight: 0 }}>
+        <div className={classes.row}>
+            <section className={`${classes.left} col-lg-8`}>
+                <div className={classes.overlap}>
+                    <p className={`${classes.bookisawindowto} d-sm-none d-lg-block`}>Book is a window <br />to the world</p>
                 </div>
             </section>
-            <section className="right col-lg-4">
-                <div className="">
-                    <div className="overlap-group">
-                        <img className="bookshelf position-sticky" src='/src/assets/bookshelf2x.png'/>
+            <section className={`${classes.right} col-lg-4`}>
+                    <div className={classes.overlapgroup}>
+                        <img className={`${classes.bookshelf} position-sticky`} src='/src/assets/bookshelf2x.png'/>
                         <div className="d-grid justify-content-center">
-                            <div className="text-wrapper-2">Login</div>
-                            <p className="welcome-back-please">
+                            <div className={classes.textwrapper2}>Login</div>
+                            <p className={classes.welcomebackplease}>
                                 Welcome Back, Please Login<br />
                                 to your account
                             </p>
                             <form onSubmit={handleLogin}>
                               {/* Email input */}
-                              <div className="field-email mb-3">
-                                <div className="overlap-group-2">
-                                  <div className="text-wrapper-3">Email Address</div>
-                                  <input type="email" className="text-wrapper-4" name="email" id="email-input"
+                              <div className={`${classes.fieldemail} mb-3`}>
+                                <div className={classes.overlapgroup2}>
+                                  <div className={classes.textwrapper3}>Email Address</div>
+                                  <input type="email" className={classes.textwrapper4} name="email" id="email-input"
                                     placeholder="Your email here..." required value={email} onChange={(e)=> setEmail(e.target.value)}
                                   />
                                 </div>
                               </div>
 
                               {/* Password input */}
-                              <div className="password mb-3">
-                                <div className="overlap-2">
-                                  <div className="text-wrapper-3">Password</div>
-                                  <input type="password" className="text-wrapper-4" name="password" id="password-input"
+                              <div className={`${classes.password} mb-3`}>
+                                <div className={classes.overlap2}>
+                                  <div className={classes.textwrapper3}>Password</div>
+                                  <input type="password" className={classes.textwrapper4} name="password" id="password-input"
                                     placeholder="Your password here..." required value={password} onChange={(e)=> setPassword(e.target.value)}
                                   />
                                 </div>
                               </div>
 
                               <div className="d-flex mb-3">
-                                <input type="checkbox" id="remember-me-checkbox" className="rectangle-4 mx-2"/>
-                                <label htmlFor="remember-me-checkbox" className="text-wrapper-5">Remember me</label>
-                                <div className="text-wrapper-6 pointer">Forgot Password</div>
+                                <input type="checkbox" id="remember-me-checkbox" className={`${classes.rectangle4} mx-2`}/>
+                                <label htmlFor="remember-me-checkbox" className={classes.textwrapper5}>Remember me</label>
+                                <div className={`${classes.textwrapper6} pointer`}>Forgot Password</div>
                               </div>
 
                               <div className="d-flex mb-3">
-                                <button className="login-button border-0 rounded" id="login-button" type="submit">
-                                  <div className="div-wrapper">
-                                    <div className="text-wrapper-7 mx-3">Login</div>
+                                <button className={`${classes.loginbutton} border-0 rounded`} id="login-button" type="submit">
+                                  <div className={classes.divwrapper}>
+                                    <div className={`${classes.textwrapper7} mx-3`}>Login</div>
                                   </div>
                                 </button>
-                                <button className="sign-up-button">
+                                <button className={classes.signupbutton}>
                                     <Link to="../register">
-                                        <div className="overlap-3">
-                                            <div className="text-wrapper-8 mx-3">Sign up</div>
+                                        <div className={classes.overlap3}>
+                                            <div className={`${classes.textwrapper8} mx-3`}>Sign up</div>
                                         </div>
                                     </Link>
                                 </button>
                               </div>
                             </form>
-                            <p className="by-signing-up-you">
-                                <span className="span">By signing up, you agree to Book’s<br /></span>
-                                <span className="text-wrapper-9">Terms and Conditions </span>
-                                <span className="span">&amp;</span>
-                                <span className="text-wrapper-9"> Privacy Policy</span>
+                            {error && (
+                              <div className="alert alert-danger" role="alert">
+                                {error}
+                              </div>
+                            )}
+                            <p className={classes.bysigningupyou}>
+                                <span className={classes.span} style={{marginLeft:0}}>By signing up, you agree to Book’s<br /></span>
+                                <span className={classes.textwrapper9}style={{marginLeft:0, padding:0}}>Terms and Conditions </span>
+                                <span className={classes.span}style={{marginLeft:0, padding:0}}>&amp;</span>
+                                <span className={classes.textwrapper9}style={{marginLeft:0,padding:0}}> Privacy Policy</span>
                             </p>
                         </div>
 
                     </div>
-                </div>
             </section>
         </div>
     </div>

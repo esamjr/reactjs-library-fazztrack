@@ -9,13 +9,13 @@
     position: relative
 } */
 
-.login-button .a {
+.loginbutton .a {
     text-decoration: none !important
 }
 
 .rectangle {
     width: 100%;
-    height: 1024px;
+    /* height: 1024px; */
     background-color: #0000004c;
     position: absolute;
     top: 0;
@@ -35,7 +35,7 @@
     line-height: normal
 }
 
-.book-is-a-window-to {
+.bookisawindowto {
     position: absolute;
     width: 808px;
     top: 87px;
@@ -48,11 +48,11 @@
     line-height: normal
 }
 
-.overlap-group {
+.overlapgroup {
     width: 100%
 }
 
-.text-wrapper-2 {
+.textwrapper2 {
     width: 354px;
     top: -115px;
     left: 0;
@@ -64,7 +64,7 @@
     line-height: normal
 }
 
-.welcome-back-please {
+.welcomebackplease {
     width: 388px;
     top: -33px;
     left: 0;
@@ -76,13 +76,13 @@
     line-height: normal
 }
 
-.field-email {
+.fieldemail {
     width: 421px;
     top: 190px;
     left: 0
 }
 
-.overlap-group-2 {
+.overlapgroup2 {
     position: relative;
     width: 417px
 }
@@ -108,7 +108,7 @@
     left: 0
 }
 
-.text-wrapper-3 {
+.textwrapper3 {
     width: 262px;
     top: 11px;
     left: 17px;
@@ -120,7 +120,7 @@
     line-height: normal
 }
 
-.text-wrapper-4 {
+.textwrapper4 {
     width: 386px;
     top: 38px;
     left: 17px;
@@ -140,12 +140,12 @@
     left: 0
 }
 
-.overlap-2 {
+.overlap2 {
     position: relative;
     width: 417px
 }
 
-.rectangle-4 {
+.rectangle4 {
     width: 20px;
     height: 20px;
     top: 378px;
@@ -156,7 +156,7 @@
     background-color: #fff
 }
 
-.text-wrapper-5 {
+.textwrapper5 {
     width: 163px;
     top: 377px;
     left: 35px;
@@ -168,7 +168,7 @@
     line-height: normal
 }
 
-.text-wrapper-6 {
+.textwrapper6 {
     width: 163px;
     top: 377px;
     left: 286px;
@@ -181,7 +181,7 @@
     transition: color .3s ease
 }
 
-.text-wrapper-6:hover {
+.textwrapper6:hover {
     color: red
 }
 
@@ -208,7 +208,7 @@
     box-sizing: border-box
 }
 
-.div-wrapper {
+.divwrapper {
     width: 110px;
     height: 36px;
     background-color: #000;
@@ -217,12 +217,12 @@
     transition: background-color .3s ease
 }
 
-.div-wrapper:hover {
+.divwrapper:hover {
     background-color: #999;
     cursor: pointer
 }
 
-.text-wrapper-7 {
+.textwrapper7 {
     width: 72px;
     top: 7px;
     left: 29px;
@@ -235,7 +235,7 @@
     white-space: nowrap
 }
 
-.sign-up-button {
+.signupbutton {
     width: 112px;
     height: 36px;
     top: 661px;
@@ -244,7 +244,7 @@
     box-sizing: border-box
 }
 
-.overlap-3 {
+.overlap3 {
     width: 110px;
     height: 36px;
     background-color: #fff;
@@ -256,12 +256,12 @@
     transition: background-color .3s ease
 }
 
-.overlap-3:hover {
+.overlap3:hover {
     background-color: #ccc;
     cursor: pointer
 }
 
-.text-wrapper-8 {
+.textwrapper8 {
     width: 72px;
     top: 6px;
     left: 24px;
@@ -274,7 +274,7 @@
     white-space: nowrap
 }
 
-.by-signing-up-you {
+.bysigningupyou {
     width: 327px;
     top: 900px;
     left: 1450px;
@@ -291,7 +291,7 @@
     color: #d0cbcb
 }
 
-.text-wrapper-9 {
+.textwrapper9 {
     color: #000
 }
 
@@ -301,7 +301,7 @@
 }
 
 .left {
-    background-image: url(../../assets/auth.png);
+    background-image: url(src/assets/auth.png);
     background-size: cover;
     background-position: 50% 50%;
     position: relative;
@@ -323,7 +323,7 @@
         flex: 0 0 100%
     }
 
-    .by-signing-up-you {
+    .bysigningupyou {
         text-align: left
     }
 }
@@ -337,7 +337,7 @@
         object-fit: cover
     }
 
-    .by-signing-up-you {
+    .bysigningupyou {
         top: 900px;
         left: auto;
         right: 12px;

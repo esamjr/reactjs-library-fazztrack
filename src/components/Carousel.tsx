@@ -9,18 +9,15 @@ const Carousel: React.FC = () => {
       if (carouselRef.current && !flktyRef.current) {
         flktyRef.current = new Flickity(carouselRef.current, {
           wrapAround: true,
+          prevNextButtons: false,
+          pageDots: false
+          
         });
       }
-      return () => {
-        if (flktyRef.current) {
-          flktyRef.current.destroy();
-          flktyRef.current = null; // Clear when unmounting
-        }
-      };
     }, []);
 
   return (
-    <div ref={carouselRef} className="carousel" style={{ marginTop: '20px' }}>
+    <div ref={carouselRef} className="carousel" data-flickity='{ "wrapAround": true }' data-flickity-options='{ "prevNextButtons": false }' style={{ marginTop: '20px' }}>
       <div className="carousel-cell">
         <img src="src/assets/dilan.png" alt="New Book 1" className="cover-book" loading="lazy" />
         <div className="caption primary-font">Dilan 1990</div>

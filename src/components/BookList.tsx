@@ -9,20 +9,23 @@ interface Book {
 }
 
 const BookList: React.FC = () => {
-  const [book, setBook] = useState<Book | null>(null);
-
+  const [books, setBooks] = useState<Book[]>([]);
+  const IMG_BOOK_URL = 'http://localhost:9090/files/book/';
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get('http://localhost:9090/guest/books');
-        const responseData = response.data;
-        // const firstDataObject = responseData.length > 0 ? responseData[0] : null;
-
-        console.log(responseData);
-        setBook(responseData);
+        const response = await axios.get('http://localhost:9090/guest/books?deleted=false');
+        const datas = response.data.data;
+  
+        const booksTmp: Book[] = [];
+        for (const data of datas) {
+          booksTmp.push(data)
+        }
+  
+        setBooks(datas);
       } catch (error) {
         console.error('Error fetching book list:', error);
-        setBook(null);
+        setBooks([]);
       }
     };
 
@@ -32,18 +35,21 @@ const BookList: React.FC = () => {
   return (
     <div className="container" style={{ marginTop: '2%' }}>
       <h2>List Book</h2>
-      {book ? (
+      {books.length > 0 ? (
         <div className="row justify-content-center align-items-center" id="book-list">
-          <div className="col-lg-3 mx-lg-1 col-sm-8 mt-sm-3">
-            <Link to={`/detail-page/${book.id}`} className="catalog-group-link">
-              <div className="catalog-group">
-                <div className="dilan">
-                  <div className="text-wrapper">{book.title}</div>
-                  <p className="p">{book.year}</p>
+          {books.map((book) => (
+            <div className="col-lg-3 mx-lg-1 col-sm-8 mt-sm-3" key={book.id}>
+              <Link to={`/detail-page/${book.id}`} className="catalog-group-link">
+                <div className="catalog-group">
+                  <img className="img" src={`${IMG_BOOK_URL}${book.id}`} alt={`${book.title}`} />
+                  <div className="dilan">
+                    <div className="text-wrapper text-center">{book.title}</div>
+                    {/* <p className="p">{book.}</p> */}
+                  </div>
                 </div>
-              </div>
-            </Link>
-          </div>
+              </Link>
+            </div>
+          ))}
         </div>
       ) : (
         <p>No books available.</p>
@@ -53,62 +59,3 @@ const BookList: React.FC = () => {
 };
 
 export default BookList;
-
-// JSON RESPONSE
-// {
-//   "data": [
-//       {
-//           "id": "ec63473b-7876-4061-8da1-4656d993db6b",
-//           "title": "Rich Dad",
-//           "year": "2008",
-//           "author": {
-//               "id": "1",
-//               "name": "Robert",
-//               "socialMedia": "@robert",
-//               "updatedAt": null,
-//               "isDeleted": null
-//           },
-//           "publisher": {
-//               "id": "1",
-//               "name": "Gramedia",
-//               "address": "Jl.Batu",
-//               "updatedAt": null,
-//               "isDeleted": null
-//           },
-//           "updatedAt": "2023-09-25T15:28:17.87486",
-//           "isAvailable": true,
-//           "isDeleted": false
-//       }
-//   ],
-//   "success": true,
-//   "message": "success",
-//   "status": 200
-// }{
-//   "data": [
-//       {
-//           "id": "ec63473b-7876-4061-8da1-4656d993db6b",
-//           "title": "Rich Dad",
-//           "year": "2008",
-//           "author": {
-//               "id": "1",
-//               "name": "Robert",
-//               "socialMedia": "@robert",
-//               "updatedAt": null,
-//               "isDeleted": null
-//           },
-//           "publisher": {
-//               "id": "1",
-//               "name": "Gramedia",
-//               "address": "Jl.Batu",
-//               "updatedAt": null,
-//               "isDeleted": null
-//           },
-//           "updatedAt": "2023-09-25T15:28:17.87486",
-//           "isAvailable": true,
-//           "isDeleted": false
-//       }
-//   ],
-//   "success": true,
-//   "message": "success",
-//   "status": 200
-// }
