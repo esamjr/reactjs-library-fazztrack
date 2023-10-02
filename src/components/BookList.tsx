@@ -7,8 +7,10 @@ interface Book {
   title: string;
   year: string;
 }
-
-const BookList: React.FC = () => {
+interface BookListProps {
+  reloadBookList: boolean;
+}
+const BookList: React.FC<BookListProps> = ({reloadBookList}) => {
   const [books, setBooks] = useState<Book[]>([]);
   const IMG_BOOK_URL = 'http://localhost:9090/files/book/';
   useEffect(() => {
@@ -16,12 +18,6 @@ const BookList: React.FC = () => {
       try {
         const response = await axios.get('http://localhost:9090/guest/books?deleted=false');
         const datas = response.data.data;
-  
-        const booksTmp: Book[] = [];
-        for (const data of datas) {
-          booksTmp.push(data)
-        }
-  
         setBooks(datas);
       } catch (error) {
         console.error('Error fetching book list:', error);
@@ -30,7 +26,7 @@ const BookList: React.FC = () => {
     };
 
     fetchData();
-  }, []);
+  }, [reloadBookList]);
 
   return (
     <div className="container" style={{ marginTop: '2%' }}>

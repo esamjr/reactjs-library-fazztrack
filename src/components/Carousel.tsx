@@ -10,8 +10,8 @@ const Carousel: React.FC = () => {
         flktyRef.current = new Flickity(carouselRef.current, {
           wrapAround: true,
           prevNextButtons: false,
-          pageDots: false
-          
+          pageDots: false,
+          autoPlay: true,
         });
       }
     }, []);
@@ -30,6 +30,7 @@ const Carousel: React.FC = () => {
         <img src="src/assets/laskar.jpeg" alt="New Book 3" className="cover-book" loading="lazy" />
         <div className="caption primary-font">Laskar Pelangi</div>
       </div>
+      
     </div>
   );
 };

@@ -623,9 +623,9 @@ span {
 .sidebar {
     background-color: #fff;
     display: none;
-    height: 95%;
+    height: 100%;
     position: fixed;
-    top: 45px;
+    top: 0px;
     left: 0;
     padding: 20px;
     box-shadow: 0 4px 30px #00000040;

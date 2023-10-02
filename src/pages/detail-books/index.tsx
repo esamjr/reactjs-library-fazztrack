@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './Detail.css';
-
+import Swal from 'sweetalert2';
+import { useNavigate } from 'react-router-dom';
 const DetailPage: React.FC = () => {
+  
   const [book, setBook] = useState({
     imageUrl: '',
     title: '',
@@ -12,6 +14,8 @@ const DetailPage: React.FC = () => {
     description: '',
     isAvailable: true,
   });
+
+  const navigate = useNavigate();
   const [isEditModalOpen, setEditModalOpen] = useState(false);
   // const [newImageUrl, setNewImageUrl] = useState('');
   const [newTitle, setNewTitle] = useState('');
@@ -93,7 +97,11 @@ const DetailPage: React.FC = () => {
 
   const updateBook = async () => {
     if (!newTitle || !newYearOfPublication || !newPublisherName || !newAuthorName) {
-      alert('Please fill in all the required fields.');
+      Swal.fire({
+        icon: 'warning',
+        title: 'Fill all form fields',
+        text: 'Please fill all edit fields',
+      });
       return;
     }
 
@@ -105,7 +113,7 @@ const DetailPage: React.FC = () => {
         namaPenerbit: newPublisherName,
       };
 
-      const bookId = window.location.pathname.split('/').pop();
+      const bookId = window.location.pathname.split('/').pop() || null;
       const response = await axios.put(`http://localhost:9090/admin/books/${bookId}`, updatedBook, {
         headers: {
             'Content-Type': 'application/json',
@@ -115,8 +123,13 @@ const DetailPage: React.FC = () => {
 
       if (response.status === 200) {
         // setBook(updatedBook);
+        Swal.fire({
+          icon: 'success',
+          title: 'Book Is Updated',
+          text: 'This book is successfully updated',
+        });
         closeEditModal();
-        location.reload();
+        fetchBook(bookId);
       } else {
         console.error('Failed to update book');
         location.reload();
@@ -128,24 +141,50 @@ const DetailPage: React.FC = () => {
 
   const deleteBook = async () => {
     const bookId = window.location.pathname.split('/').pop();
-
+  
     try {
-      const response = await axios.delete(`http://localhost:9090/admin/books/${bookId}`, {
+      const bookResponse = await axios.get(`http://localhost:9090/books/${bookId}`, {
         headers: {
-          'Authorization': `Bearer ${localStorage.getItem('token')}`,
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
         },
       });
-
-      if (response.status === 200) {
-        console.log('Book deleted successfully');
-        window.location.href = '/home';
+  
+      const bookData = bookResponse.data.data;
+  
+      if (bookData.is_available) {
+        const deleteResponse = await axios.delete(`http://localhost:9090/admin/books/${bookId}`, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
+          },
+        });
+  
+        if (deleteResponse.status === 200) {
+          console.log('Book deleted successfully');
+          Swal.fire({
+            icon: 'success',
+            title: 'Book Is Deleted',
+            text: 'This book is successfully deleted',
+          });
+          navigate('/home');
+        } else {
+          Swal.fire({
+            icon: 'error',
+            title: 'Book Is Unavailable',
+            text: 'This book is not available for deletion.',
+          });
+        }
       } else {
-        console.error('Failed to delete book');
+        Swal.fire({
+          icon: 'error',
+          title: 'Book Is Unavailable',
+          text: 'This book is not available for deletion.',
+        });
       }
     } catch (error) {
       console.error('Error:', error);
     }
   };
+  
   const borrowBook = async () => {
     const userEmail = localStorage.getItem('email');
     const bookId = window.location.pathname.split('/').pop();
@@ -167,8 +206,14 @@ const DetailPage: React.FC = () => {
       });
 
       if (response.status === 200) {
-        console.log('Book borrowed successfully');
-        location.reload();
+        // console.log('Book borrowed successfully');
+        Swal.fire({
+          icon: 'success',
+          title: 'Borrow successfully',
+          text: 'This book is successfully borrowed',
+        });
+        fetchBook(bookId);
+        setIsBorrowed(true);
       } else {
         console.error('Failed to borrow book');
       }
@@ -177,7 +222,7 @@ const DetailPage: React.FC = () => {
     }
   };
   const returnBook = async () => {
-    const bookId = window.location.pathname.split('/').pop();
+    const bookId = window.location.pathname.split('/').pop() || null;
 
     try {
       const response = await axios.post(`http://localhost:9090/books/return/${bookId}`, null, {
@@ -187,8 +232,15 @@ const DetailPage: React.FC = () => {
       });
 
       if (response.status === 200) {
-        console.log('Book returned successfully');
-        location.reload();
+        // console.log('Book returned successfully');
+        // location.reload();
+        Swal.fire({
+          icon: 'success',
+          title: 'Return book successfully',
+          text: 'This book is successfully returned',
+        });
+        fetchBook(bookId);
+        setIsBorrowed(false);
       } else {
         console.error('Failed to return book');
       }
@@ -212,7 +264,7 @@ const DetailPage: React.FC = () => {
                       <img className="arrow" src="../../src/assets/arrow.svg" />
                   </div>
                   {showEditDeleteButtons && (
-                    <div className="text-wrapper d-flex pointer" style={{left:1000}}>
+                    <div className="text-wrapper d-flex pointer mt-2">
                       <div className="text-white shadow rounded p-2" style={{marginRight:'15px'}} onClick={openEditModal}>Edit</div>
                       <div className="text-white shadow rounded p-2" onClick={deleteBook}>Delete</div>
                     </div>
@@ -245,11 +297,20 @@ const DetailPage: React.FC = () => {
                 </div>
                 {!showEditDeleteButtons && book.isAvailable == true && (
                    <div className="col-md-5 d-flex flex-column justify-content-end align-items-end">
-                     <button className="borrow-button bottom-0 end-20" onClick={borrowBook}>
-                       <div className="borrow-wrapper">
-                         <div className="text-wrapper-7-detail">Borrow</div>
-                       </div>
-                     </button>
+                    {localStorage.getItem('token') === null && (
+                      <button type="button" className="borrow-button bottom-0 end-20" disabled>
+                        <div className="">
+                          <div className="text-wrapper-7-detail">Borrow</div>
+                        </div>
+                      </button>
+                    )}
+                    {localStorage.getItem('token') != null && (
+                      <button className="borrow-button bottom-0 end-20" onClick={borrowBook} >
+                      <div className="borrow-wrapper">
+                        <div className="text-wrapper-7-detail">Borrow</div>
+                      </div>
+                    </button>
+                    )}
                    </div>
                 )}
                 {!showEditDeleteButtons && isBorrowed && (

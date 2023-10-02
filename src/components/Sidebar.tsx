@@ -20,7 +20,7 @@ const Sidebar: React.FC<SidebarProps> = ({ user, isOpen, openAddBookModal }) => 
 
   return (
     <div className={sidebarClass}>
-      <div className="mt-5">
+      <div className="mt-5" style={{paddingTop:"50px"}}>
         <div className="sidebar-logo">
           {user === 'Guest' ? (
           <Link to="/">

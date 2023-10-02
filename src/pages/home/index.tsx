@@ -5,10 +5,13 @@ import Sidebar from '../../components/Sidebar';
 import Carousel from '../../components/Carousel';
 import BookList from '../../components/BookList';
 import Modal from '../../components/Modal';
+import Swal from 'sweetalert2';
 import './Home.css';
+import { useNavigate } from 'react-router-dom';
 
 const Home: React.FC = () => {
   const [isSidebarOpen, setSidebarOpen] = useState(false);
+  const [reloadBookList, setReloadBookList] = useState(false);
   const [isAddBookModalOpen, setAddBookModalOpen] = useState(false);
   const [bookData, setBookData] = useState({
     title: '',
@@ -19,6 +22,7 @@ const Home: React.FC = () => {
     description: '',
   });
 
+  const navigate = useNavigate();
   useEffect(() => {
   }, []);
 
@@ -68,9 +72,7 @@ const Home: React.FC = () => {
           'Authorization': `Bearer ${localStorage.getItem('token')}`,
         },
       });
-
       if (bookAddResponse.status === 201) {
-        console.log('Book added successfully');
         const bookId = bookAddResponse.data.data.id;
         const imageForm = new FormData();
         imageForm.append('file', bookData.imageFile);
@@ -86,16 +88,59 @@ const Home: React.FC = () => {
           console.error('Failed to upload image');
         } else {
           console.log('Image uploaded successfully');
+          Swal.fire({
+            icon: 'success',
+            title: 'Book added successfully',
+            text: 'You have successfully added book.',
+          }).then((result) => {
+            if (result.isConfirmed) {
+              navigate('/home');
+              setReloadBookList(true);
+              setBookData({
+                title: '',
+                yearOfPublication: '',
+                authorName: '',
+                publisherName: '',
+                imageFile: null as unknown as Blob,
+                description: '',
+              });
+            }
+          });
         }
-
+        Swal.fire({
+          icon: 'success',
+          title: 'Book added successfully',
+          text: 'You have successfully added book.',
+        }).then((result) => {
+          if (result.isConfirmed) {
+            navigate('/home');
+            setReloadBookList(true);
+            setBookData({
+              title: '',
+              yearOfPublication: '',
+              authorName: '',
+              publisherName: '',
+              imageFile: null as unknown as Blob,
+              description: '',
+            });
+          }
+        });
         closeAddBookModal();
-        location.reload();
       } else {
         console.error('Failed to add book');
-        location.reload();
+        Swal.fire({
+          icon: 'error',
+          title: 'Book Added Failed',
+          text: 'Failed to add book',
+        });
       }
     } catch (error) {
       console.error('Error:', error);
+      Swal.fire({
+        icon: 'error',
+        title: 'Book Added Failed',
+        text: 'An error occurred during added book. Please try again later.',
+      });
     }
   };
 
@@ -106,7 +151,8 @@ const Home: React.FC = () => {
         <div className="carousel" style={{ marginTop: '20px' }}>
           <Carousel />
         </div>
-        <BookList />
+        <BookList reloadBookList={reloadBookList} />
+
         <Sidebar user={localStorage.getItem('email') || 'Guest'} isOpen={isSidebarOpen} openAddBookModal={openAddBookModal} />
       </div>
       <Modal isOpen={isAddBookModalOpen} onClose={closeAddBookModal}>

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import Swal from 'sweetalert2'
 import classes from './Register.module.css';
 import { Link, useNavigate } from 'react-router-dom';
 
@@ -25,12 +26,28 @@ const Register: React.FC = () => {
       });
 
       if (response.status === 201) {
-        navigate('/');
+        Swal.fire({
+          icon: 'success',
+          title: 'Registration Successful',
+          text: 'You have successfully registered.',
+        }).then((result) => {
+          if (result.isConfirmed) {
+            navigate('/');
+          }
+        });
       } else {
-        alert('Email or User already registered. Please try again.');
+        Swal.fire({
+          icon: 'error',
+          title: 'Registration Failed',
+          text: 'Email or User already registered. Please try again.',
+        });
       }
     } catch (error) {
-      console.error('Error:', error);
+      Swal.fire({
+        icon: 'error',
+        title: 'Registration Failed',
+        text: 'An error occurred during registration. Please try again later.',
+      });
     }
   };
 
@@ -53,46 +70,30 @@ const Register: React.FC = () => {
                             </p>
                             <form onSubmit={handleRegister}>
                               {/* Username Input */}
-                            <div className={`${classes.fieldfullname} mb-3`}>
-                                <div className={classes.overlapgroup2}>
-                                  <div className={classes.textwrapper3}>Username</div>
-                                  <input type="text" className={classes.textwrapper4} name="username" id="email-input"
-                                    placeholder="Your username here..." required value={username} onChange={(e)=> setFullName(e.target.value)}
-                                  />
-                                </div>
+                              <div className="form-outline mb-2">
+                                <label className="form-label">Username</label>
+                                <input type="text" className="form-control form-control-lg"
+                                  placeholder="Enter a username" required value={username} onChange={(e)=> setFullName(e.target.value)}/>
                               </div>
-                              {/* Email input */}
-                              <div className={`${classes.fieldemail} mb-3`}>
-                                <div className={classes.overlapgroup2}>
-                                  <div className={classes.textwrapper3}>Email Address</div>
-                                  <input type="email" className={classes.textwrapper4} name="email" id="email-input"
-                                    placeholder="Your email here..." required value={email} onChange={(e)=> setEmail(e.target.value)}
-                                  />
-                                </div>
+                              {/* Email input */} 
+                              <div className="form-outline mb-2">
+                                <label className="form-label">Email address</label>
+                                <input type="email" className="form-control form-control-lg"
+                                  placeholder="Enter a email address" required value={email} onChange={(e)=> setEmail(e.target.value)}/>
                               </div>
 
                               {/* Password input */}
-                              <div className={`${classes.password} mb-3`}>
-                                <div className={classes.overlap2}>
-                                  <div className={classes.textwrapper3}>Password</div>
-                                  <input type="password" className={classes.textwrapper4} name="password" id="password-input"
-                                    placeholder="Your password here..." required value={password} onChange={(e)=> setPassword(e.target.value)}
-                                  />
-                                </div>
+                              <div className="form-outline mb-2">
+                                <label className="form-label">Password</label>
+                                <input type="password" className="form-control form-control-lg"
+                                  placeholder="Enter a Password" required value={password} onChange={(e)=> setPassword(e.target.value)}/>
                               </div>
-
-                              {/* <div className="d-flex mb-3">
-                                <input type="checkbox" id="remember-me-checkbox" className={`${classes.rectangle4} mx-2`}/>
-                                <label htmlFor="remember-me-checkbox" className={classes.textwrapper5}>Remember me</label>
-                                <div className={`${classes.textwrapper6} pointer`}>Forgot Password</div>
-                              </div> */}
-
-                              <div className="d-flex mb-3">
-                                <button className={`${classes.loginbutton} border-0 rounded`} id="login-button" type="submit">
-                                  <div className={classes.divwrapper}>
-                                    <div className={`${classes.textwrapper7} mx-3`}>Register</div>
-                                  </div>
+                              {/* Register Button */}
+                              <div className="text-center text-lg-start mt-4 mb-4">
+                                <button type="submit" className="btn btn-outline-secondary btn-lg mx-0"
+                                  style={{paddingLeft:'2.5rem', paddingRight:'2.5rem'}}>Register
                                 </button>
+                                
                               </div>
                               <div className="d-flex mb-3">
                                   <div className={`${classes.textwrapper6} pointer w-100`}>Already Have Account? <Link to="/">Login Here</Link></div> 

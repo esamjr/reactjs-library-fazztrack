@@ -5,7 +5,7 @@ interface NavbarProps {
 }
 const Navbar: React.FC<NavbarProps> = ({ onSidebarToggle }) => {
   return (
-    <section className="header">
+    <section className="header sticky-top">
     <nav className="navbar navbar-expand-lg navbar-light bg-white border-bottom shadow" style={{ zIndex: 1 }}>
       <div className="container">
         <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"

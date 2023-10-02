@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-
+import Swal from 'sweetalert2';
 import classes from './Login.module.css';
 import { Link, useNavigate } from "react-router-dom";
 
@@ -28,13 +28,33 @@ const Login: React.FC = () => {
       if (response.status === 200) {
         localStorage.setItem('token', response.data.data.token);
         localStorage.setItem('email', response.data.data.email);
-        navigate("/home");
+  
+        // Login successful
+        Swal.fire({
+          icon: 'success',
+          title: 'Login Successful',
+          text: 'You have successfully logged in.',
+        }).then((result) => {
+          if (result.isConfirmed) {
+            navigate('/home');
+          }
+        });
       } else {
         setError('Email atau password tidak valid. Silahkan coba lagi.');
+        Swal.fire({
+          icon: 'error',
+          title: 'Login Failed',
+          text: 'Email atau password tidak valid. Silahkan coba lagi.',
+        });
       }
     } catch (error) {
       console.error('Error:', error);
       setError('Terjadi kesalahan. Silahkan coba lagi.');
+      Swal.fire({
+        icon: 'error',
+        title: 'Login Failed',
+        text: 'Email atau password tidak valid. Silahkan coba lagi.',
+      });
     }
   };
 
@@ -57,26 +77,40 @@ const Login: React.FC = () => {
                             </p>
                             <form onSubmit={handleLogin}>
                               {/* Email input */}
-                              <div className={`${classes.fieldemail} mb-3`}>
-                                <div className={classes.overlapgroup2}>
-                                  <div className={classes.textwrapper3}>Email Address</div>
-                                  <input type="email" className={classes.textwrapper4} name="email" id="email-input"
-                                    placeholder="Your email here..." required value={email} onChange={(e)=> setEmail(e.target.value)}
-                                  />
-                                </div>
+                              <div className="form-outline mb-4">
+                                <label className="form-label">Email address</label>
+                                <input type="email" className="form-control form-control-lg"
+                                  placeholder="Enter a valid email address" required value={email} onChange={(e)=> setEmail(e.target.value)}/>
                               </div>
 
                               {/* Password input */}
-                              <div className={`${classes.password} mb-3`}>
-                                <div className={classes.overlap2}>
-                                  <div className={classes.textwrapper3}>Password</div>
-                                  <input type="password" className={classes.textwrapper4} name="password" id="password-input"
-                                    placeholder="Your password here..." required value={password} onChange={(e)=> setPassword(e.target.value)}
-                                  />
+                              <div className="form-outline mb-4">
+                                <label className="form-label">Password</label>
+                                <input type="password" className="form-control form-control-lg"
+                                  placeholder="Enter a valid Password" required value={password} onChange={(e)=> setPassword(e.target.value)}/>
+                              </div>
+                              {/* Remember Me & Forgot Password */}
+                              <div className="d-flex justify-content-between align-items-center">
+                                <div className="form-check mb-0">
+                                  <input className="form-check-input me-2" type="checkbox" value=""/>
+                                  <label className="form-check-label">
+                                    Remember me
+                                  </label>
                                 </div>
+                                <a href="#!" className="text-body">Forgot password?</a>
                               </div>
 
-                              <div className="d-flex mb-3">
+                              <div className="text-center text-lg-start mt-2 pt-2 mb-3">
+                                <button type="submit" className="btn btn-outline-secondary btn-lg mx-3"
+                                  style={{paddingLeft:'2.5rem', paddingRight:'2.5rem'}}>Login
+                                </button>
+                                <Link to="../register" className="">
+                                <button type="submit" className="btn btn-secondary btn-lg"
+                                  style={{paddingLeft:'2.5rem', paddingRight:'2.5rem'}}>Register
+                                </button>
+                                </Link>
+                              </div>
+                              {/* <div className="d-flex mb-3">
                                 <input type="checkbox" id="remember-me-checkbox" className={`${classes.rectangle4} mx-2`}/>
                                 <label htmlFor="remember-me-checkbox" className={classes.textwrapper5}>Remember me</label>
                                 <div className={`${classes.textwrapper6} pointer`}>Forgot Password</div>
@@ -95,7 +129,7 @@ const Login: React.FC = () => {
                                         </div>
                                     </Link>
                                 </button>
-                              </div>
+                              </div> */}
                             </form>
                             {error && (
                               <div className="alert alert-danger" role="alert">

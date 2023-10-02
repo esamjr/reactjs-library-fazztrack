@@ -326,6 +326,10 @@
     .bysigningupyou {
         text-align: left
     }
+
+    .bookisawindowto {
+        display: none;
+    }
 }
 
 @media (min-width:992px) {

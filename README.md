@@ -1,27 +1,62 @@
-# React + TypeScript + Vite
+# Aplikasi Perpustakaan
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Aplikasi Perpustakaan adalah aplikasi berbasis web yang memungkinkan pengguna untuk melihat, meminjam, dan mengelola informasi buku dalam perpustakaan. Aplikasi ini juga memiliki fitur untuk mengedit dan menghapus buku, serta mengembalikan buku yang telah dipinjam.
 
-Currently, two official plugins are available:
+## Fitur
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- Melihat detail buku, termasuk judul, tahun terbit, pengarang, penerbit, dan deskripsi.
+- Meminjam buku.
+- Mengedit buku (hanya untuk pengguna admin).
+- Menghapus buku (hanya untuk pengguna admin).
+- Mengembalikan buku yang telah dipinjam (hanya jika Anda adalah peminjam).
 
-## Expanding the ESLint configuration
+## Cara Menggunakan Aplikasi
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+1. **Registrasi atau Masuk**
 
-- Configure the top-level `parserOptions` property like this:
+   - Sebelum menggunakan aplikasi, pengguna perlu melakukan registrasi atau masuk dengan akun yang sudah ada.
 
-```js
-   parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-   },
-```
+2. **Halaman Utama**
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+   - Setelah masuk, pengguna akan melihat daftar buku yang tersedia dalam perpustakaan.
+
+3. **Melihat Detail Buku**
+
+   - Klik pada judul buku untuk melihat detail buku, termasuk deskripsi dan status ketersediaan.
+
+4. **Meminjam Buku**
+
+   - Jika buku tersedia, pengguna dapat mengklik tombol "Borrow" untuk meminjam buku tersebut.
+
+5. **Mengembalikan Buku**
+
+   - Jika Anda adalah peminjam buku tersebut, tombol "Return Book" akan muncul saat Anda melihat detail buku. Klik tombol ini untuk mengembalikan buku yang telah dipinjam.
+
+6. **Mengedit atau Menghapus Buku (Admin)**
+
+   - Jika Anda adalah pengguna dengan peran admin, Anda dapat mengedit atau menghapus buku dengan mengklik tombol "Edit" atau "Delete" saat melihat detail buku.
+
+## Setup Proyek
+
+Untuk menjalankan proyek ini secara lokal, ikuti langkah-langkah berikut:
+
+1. Clone repositori ini ke komputer Anda:
+
+   ```bash
+   git clone https://github.com/esamjr/reactjs-library-fazztrack.git
+   ```
+
+2. Instal dependensi:
+
+   ```bash
+   cd reactjs-library-fazztrack
+   npm install
+   ```
+
+3. Jalankan proyek:
+
+   ```bash
+   npm run dev
+   ```
+
+   Aplikasi akan berjalan di `http://localhost:5173`.
